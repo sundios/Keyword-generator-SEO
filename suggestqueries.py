@@ -36,8 +36,7 @@ def api_call(keyword):
         keywords.append(word)
         print(word)
         
-    get_more(keywords)
-    
+    get_more(keywords)  
     
 '''
 get more takes the keywords list and runs the keywords via the
@@ -48,15 +47,15 @@ I set a limit of 1000 Keywords but this can be increased.
 '''
            
 def get_more(keywords):
-
         for i in keywords:
             url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + i
             response = requests.get(url, verify=False)
             suggestions = json.loads(response.text)
             for word in suggestions[1]:
-                keywords.append(word)
                 print(word)
+                keywords.append(word)
                 print(len(keywords))
+
             if len(keywords) >= 1000: #we can increase this number if we want more keywords
                 print('##Finish here####')
                 break
@@ -65,6 +64,7 @@ def get_more(keywords):
         df = pd.DataFrame(keywords,columns=['Keywords'])
         json_hist = df.to_json(orient="table")
 
+        df.to_csv('test.csv')
     
 api_call(keyword)
 
