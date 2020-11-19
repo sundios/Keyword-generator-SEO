@@ -1,12 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Sep 14 20:09:14 2020
-
-@author: kburchardt
-"""
-
-
 import requests
 import json
 import pandas as pd
@@ -30,11 +21,7 @@ def api_call(keyword):
     response = requests.get(url, verify=False)
     suggestions = json.loads(response.text)
     
-    # get_keyword(suggestions)
-    keywords =[]
-    for word in suggestions[1]:
-        keywords.append(word)
-        print(word)
+    keywords = suggestions[1]
         
     get_more(keywords)  
     
@@ -48,25 +35,38 @@ I set a limit of 1000 Keywords but this can be increased.
            
 def get_more(keywords):
         for i in keywords:
+            print(i)
             url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + i
             response = requests.get(url, verify=False)
             suggestions = json.loads(response.text)
-            for word in suggestions[1]:
-                print(word)
-                keywords.append(word)
+            
+            keywords2 =  suggestions[1]
+            length = len(keywords2)
+            
+            for n in range(1, length):
+                print(keywords2[n])
+                keywords.append(keywords2[n])
                 print(len(keywords))
-
-            if len(keywords) >= 1000: #we can increase this number if we want more keywords
+                
+                
+            if len(keywords) >= 3000: #we can increase this number if we want more keywords
                 print('##Finish here####')
                 break
+            
+        keywords = list(dict.fromkeys(keywords))
     
     
         df = pd.DataFrame(keywords,columns=['Keywords'])
         json_hist = df.to_json(orient="table")
 
         df.to_csv('test.csv')
+
+
+
+
     
 api_call(keyword)
+
 
 
 
