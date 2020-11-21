@@ -5,9 +5,7 @@ import pandas as pd
 # Keyword Suggestor for Keyword Research
 # =============================================================================
 
-keyword=input('Add your keyword')
-
-
+keyword=input('Add your keyword: ')
 
 '''
 api_call makes the first api call to get the initial 10 queries
@@ -45,10 +43,11 @@ function passes to parameters:
 '''    
         
 def prefixes(keyword,keywords):
-    
+    #we can add more suffixes tailored to the company or type of search we are looking. E.g: food delivery, delivery,etc
     prefixes = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','y','x','y','z','how','which','why','where','who','when','are','what']    
     
     for prefix in prefixes:
+        print(prefix)
         url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + prefix + " " + keyword 
         response = requests.get(url, verify=False)
         suggestions = json.loads(response.text)
@@ -71,10 +70,9 @@ function passes to parameters:
 '''  
             
 def suffixes(keyword,keywords):
-    
+    #we can add more suffixes tailored to the company or type of search we are looking. E.g: food delivery, delivery,etc
     suffixes =['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','y','x','y','z','like','for','without','with','versus','vs','to','near','except','has']
-    
-    
+       
     for suffix in suffixes:
         print(suffix)
         url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + keyword + " " + suffix 
@@ -95,8 +93,7 @@ the keywords list.
 I set a limit of 1000 Keywords but this can be increased.
 Once it hits 1000 keyowrds it stops and we run a deduplicator so we
  only get unique keywords
-'''
-           
+'''        
 def get_more(keywords):
         for i in keywords:
             print(i)
@@ -115,7 +112,7 @@ def get_more(keywords):
             
                    
             if len(keywords) >= 1000: #we can increase this number if we want more keywords
-                print('##Finish here####')
+                print('###Finish here####')
                 break
             
         #removing duplicates from the list
