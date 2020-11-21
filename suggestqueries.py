@@ -30,7 +30,7 @@ def api_call(keyword):
         
     prefixes(keyword,keywords)
     suffixes(keyword,keywords)
-    get_more(keywords) 
+    get_more(keyword,keywords) 
     
 '''
 prefixes adds a value from the prefix list before the keyword we passed 
@@ -94,7 +94,7 @@ I set a limit of 1000 Keywords but this can be increased.
 Once it hits 1000 keyowrds it stops and we run a deduplicator so we
  only get unique keywords
 '''        
-def get_more(keywords):
+def get_more(keyword,keywords):
         for i in keywords:
             print(i)
             url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + i
@@ -122,7 +122,7 @@ def get_more(keywords):
         json_hist = df.to_json(orient="table")
 
         #Exporting all keywords to CSV
-        df.to_csv('test.csv')
+        df.to_csv(keyword+'-keywords.csv')
    
 api_call(keyword)
 
