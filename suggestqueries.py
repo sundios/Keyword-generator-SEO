@@ -7,6 +7,12 @@ import pandas as pd
 
 keyword=input('Add your keyword: ')
 
+
+# =============================================================================
+# Add try except on suggestions = json.loads.. in the case the api doesnt reutrn anything, the code should keep going
+# =============================================================================
+
+
 '''
 api_call makes the first api call to get the initial 10 queries
 We only need one parameter which is the initial Keyword we want 
@@ -28,9 +34,12 @@ def api_call(keyword):
     for word in suggestions[1]:
         keywords.append(word)
         
+    #functions for getting more kws, cleaning and search volume
     prefixes(keyword,keywords)
     suffixes(keyword,keywords)
-    get_more(keyword,keywords) 
+    numbers(keyword,keywords)
+    get_more(keyword,keywords)
+    clean_df(keywords,keyword)
     
 '''
 prefixes adds a value from the prefix list before the keyword we passed 
@@ -84,15 +93,39 @@ def suffixes(keyword,keywords):
         
         for n in range(length):
             print(kws[n])
-            keywords.append(kws[n])   
+            keywords.append(kws[n])  
+ 
+'''
+Numbers runs a for loop from 0 to 9 and appends the number as a string
+at the end of the keyword. E.g Broncos 2.  this can give something like 
+Broncos 2020 or Broncos 2021 team
+
+
+function passes to parameters:
+    keyword: value we want to check.
+    keywords: list to append values.
+'''             
+def numbers(keyword,keywords):
+    #we can add more numbers
+    for num in range(0,10):
+        print(num)
+        url = "http://suggestqueries.google.com/complete/search?output=firefox&q=" + keyword + " " + str(num)
+        response = requests.get(url, verify=False)
+        suggestions = json.loads(response.text)
+        
+        kws = suggestions[1]
+        length = len(kws)
+        
+        for n in range(length):
+            print(kws[n])
+            keywords.append(kws[n]) 
 '''
 get more takes the keywords list and runs the keywords via the
 api to get more suggestions. Every new suggestion is stored back in
 the keywords list.
 
 I set a limit of 1000 Keywords but this can be increased.
-Once it hits 1000 keyowrds it stops and we run a deduplicator so we
- only get unique keywords
+Once it hits 1000 keyowords it stops
 '''        
 def get_more(keyword,keywords):
         for i in keywords:
@@ -114,15 +147,32 @@ def get_more(keyword,keywords):
             if len(keywords) >= 1000: #we can increase this number if we want more keywords
                 print('###Finish here####')
                 break
+'''
+cleand df performs 2 important things:
+    - Remove dupliactes fro the list
+    -Remove keywords that dont contain the primary keyword.
+        e.g: if we searched for Netlfix and playstation is on the list. 
+        palaystation will be removed.
+    
+'''          
             
-        #removing duplicates from the list
-        keywords = list(dict.fromkeys(keywords)) 
-        
-        df = pd.DataFrame(keywords,columns=['Keywords'])
-        json_hist = df.to_json(orient="table")
+def clean_df(keywords,keyword):
+    #removing duplicates from the list
+    keywords = list(dict.fromkeys(keywords)) 
 
-        #Exporting all keywords to CSV
-        df.to_csv(keyword+'-keywords.csv')
+    #checking if keyword is in the list and emoving naything that doesnt contain
+    new_list = [word for word in keywords if all(val in word for val in keyword.split(' '))]
+    
+   
+    df = pd.DataFrame (new_list, columns = ['Keywords'])
+        
+    print(df)
+        
+    #Exporting all keywords to CSV
+    df.to_csv(keyword+'-keywords.csv')
+                
+    #this is just in case we want to create an API response
+    json_hist = df.to_json(orient="columns")
    
 api_call(keyword)
 
