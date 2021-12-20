@@ -150,9 +150,10 @@ def get_more(keyword,keywords):
 '''
 cleand df performs 2 important things:
     - Remove dupliactes fro the list
-    -Remove keywords that dont contain the primary keyword.
-        e.g: if we searched for Netlfix and playstation is on the list. 
-        palaystation will be removed.
+    - Remove keywords that dont contain the primary keyword.
+    
+e.g: if we searched for Netlfix and playstation is on the list. 
+    palaystation will be removed.
     
 '''          
             
@@ -160,12 +161,13 @@ def clean_df(keywords,keyword):
     #removing duplicates from the list
     keywords = list(dict.fromkeys(keywords)) 
 
-    #checking if keyword is in the list and emoving naything that doesnt contain
+    #checking if keyword is in the list and removing anything that doesnt contain th keyword
     new_list = [word for word in keywords if all(val in word for val in keyword.split(' '))]
     
-   
+    #tranforming list into dataframe for excell extraction
     df = pd.DataFrame (new_list, columns = ['Keywords'])
-        
+     
+    #We can comment this
     print(df)
         
     #Exporting all keywords to CSV
