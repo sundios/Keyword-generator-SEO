@@ -1,6 +1,7 @@
 # Python Keyword tool generator SEO
 
 Keyword tool generator SEO is a python script that uses Google suggested queries to get keyword ideas for keyword research. It also uses prefixes and suffixes to get more ideas so you dont miss any important keyword.
+You can see this script in action on [https://www.keywordresearchtool.io/](https://www.keywordresearchtool.io/)
 
 ## Installation
 
