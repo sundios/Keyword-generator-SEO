@@ -1,7 +1,10 @@
 # Python Keyword tool generator SEO
 
 Keyword tool generator SEO is a python script that uses Google suggested queries to get keyword ideas for keyword research. It also uses prefixes and suffixes to get more ideas so you dont miss any important keyword.
-You can see this script in action on [https://www.keywordresearchtool.io/](https://www.keywordresearchtool.io/)
+You can see the script in action here <a href="https://www.kwrds.ai/" rel="follow">[https://www.kwrds.ai/](https://www.kwrds.ai/)</a>
+
+
+<a href="https://bmc.link/sundios" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## Installation
 
